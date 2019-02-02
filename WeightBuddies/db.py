@@ -54,6 +54,6 @@ class UserDatabase:
 # db.registerUser("jeef110", "jeef", "o", 0)
 # db.updateUserField("jeef110", "weight_data", {
 #  {
-#      { "weight": 100, "date": }
+#      { "weight": 100, "date": <dateTime>}
 #  }
 # })
