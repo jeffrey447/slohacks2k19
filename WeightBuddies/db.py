@@ -23,7 +23,8 @@ class UserDatabase:
       data = { "username": username,
               "name": name,
               "pass_hash": pwhash,
-              "weight_data": {}, # contains tuples of weight & date,
+              "weight_data": {}, # contains tuples of weight & date
+              "coins": 0,
               "role": role # 0: mentor, 1: mentee
             }
       
@@ -48,3 +49,6 @@ class UserDatabase:
       
       return True
     return False
+
+db = UserDatabase("testDB")
+db.registerUser
