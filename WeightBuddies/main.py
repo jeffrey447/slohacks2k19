@@ -14,6 +14,8 @@ fakeEndweight = 100
 fakeCheckpointdateOne = 190
 fakeCheckpointdateTwo = 160
 
+fakeMidpoint = datetime.datetime(2019, 1, 5)
+
 fakeStartdate = datetime.datetime(2019, 1, 1)
 fakeEnddate = datetime.datetime(2019, 1, 9)
 # end of fake variables
@@ -40,21 +42,32 @@ def ifBothreachGoal(personOneweight, personTwoweight, oneEndweight, twoEndweight
         print("Only one person reached goal!")
 
 
-# def checkpointOnereached(weight, date, checkpoint):
-#     if(weight <= checkpoint[0][0] and date < checkpoint[0][1]):
-#         return multiplier + .5
+def checkpointOnereached(weight, date, checkpoint):
+    if(weight <= checkpoint[0] and date <= checkpoint[1]):
+        global multiplier
+        multiplier += .5
+        return "Success!"
+    elif(weight <= checkpoint[0] and date >= checkpoint[1]):
+        print("Checkpoint reached, but done too late")
+    elif(weight >= checkpoint[0] and date <= checkpoint[1]):
+        print("Weight above checkpoint, but time is still left!")
+    else:
+        print("Checkpoint deadline surpassed and weigt is above checkpoint")
 
 
-# def checkPointTworeached(weight, date, checkpoint):
-#     if(weight <= checkpoint[1][0] and date < checkpoint[1][1]):
-#         return multiplier + .75
+def checkPointTworeached(weight, date, checkpoint):
+    if(weight <= checkpoint[2] and date <= checkpoint[3]):
+        global multiplier
+        multiplier += .75
+        return "Success!"
+    elif(weight <= checkpoint[2] and date >= checkpoint[3]):
+        print("Checkpoint reached, but done too late")
+    elif(weight >= checkpoint[2] and date <= checkpoint[3]):
+        print("Weight above checkpoint, but time is still left!")
+    else:
+        print("Checkpoint deadline surpassed and weigt is above checkpoint")
 
 
-print(ifBothreachGoal(150, 200, 200, 300))
-
-firstCheck = checkpoints(fakeStartweight, fakeEndweight, fakeStartdate)
-print(firstCheck)
-secondCheck = checkpoints(400, 20, fakeStartdate)
-print(secondCheck)
-print(type(secondCheck[1]))
-# print(checkpointOnereached(200, datetime.datetime(2019, 1, 5), firstCheck))
+fakeDudescheckpoint = checkpoints(300, 200, fakeStartdate)
+print(checkpointOnereached(299, fakeMidpoint, fakeDudescheckpoint))
+print(multiplier)
