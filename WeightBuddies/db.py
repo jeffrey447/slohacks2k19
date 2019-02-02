@@ -48,6 +48,3 @@ class UserDatabase:
       
       return True
     return False
-
-db = UserDatabase("testDB")
-print(db.getUser("no you"))
