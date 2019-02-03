@@ -26,7 +26,7 @@ def checkpoints(startWeight, endWeight, startdate):
     weightTolose = startWeight - endWeight
     thirdway = weightTolose / 5
     checkpoints = [np.array([])]
-    checkDateone = startdate + datetime.timedelta(days=10)
+    checkDateone = startdate + datetime.timedelta(days=30)
     checkDatetwo = startdate + datetime.timedelta(days=20)
     checkpoints = np.append(checkpoints, [((thirdway * 2) + endWeight, checkDateone), (thirdway + endWeight, checkDatetwo)])
     return checkpoints

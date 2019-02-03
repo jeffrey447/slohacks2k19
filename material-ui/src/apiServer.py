@@ -5,12 +5,14 @@ import os
 app = Flask(__name__)
 db = UserDatabase("testDatabase")
 
+
 def formatOutput(success, message, data):
   return {
-    "success": success,
-    "message": message,
-    "data": data
+      "success": success,
+      "message": message,
+      "data": data
   }
+
 
 @app.route("/api/user/<string:username>", methods=["GET", "POST"])
 def user(username):
@@ -19,8 +21,8 @@ def user(username):
 
     action = formData.get("action")
     if action is not None:
-      action = action.lower() # to avoid case sensitive actions
-      
+      action = action.lower()  # to avoid case sensitive actions
+
       if action == "getinfo":
         user = db.getUser(username, True)
         message = "User (" + username + ") is not found."
@@ -31,7 +33,7 @@ def user(username):
           return jsonify(formatOutput(False, message, []))
       elif action == "update":
         args = request.args
-        
+
         key = args.get("key")
         val = args.get("val")
 
@@ -44,7 +46,7 @@ def user(username):
             data = db.getUser(username, True)
           else:
             message = "User (" + username + ") is not found."
-          
+
           return jsonify(formatOutput(success, message, data))
       elif action == "register":
         args = request.args
@@ -68,7 +70,8 @@ def user(username):
     else:
       abort(403)
   else:
-    abort(403) # no you
+    abort(403)  # no you
+
 
 if __name__ == "__main__":
   app.secret_key = os.urandom(24)

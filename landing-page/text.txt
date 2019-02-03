@@ -1,8 +1,9 @@
 Jason Tran:
-Full-stack with React JS. Created user page with a notification system, dynamic graphs, and a task list.
+Full-stack with React JS. Created user page with a notification system, dynamic graphs, and a task list. Linked landing with user and login page.
 
 
 Jeffrey Ha:
-Worked with MongoDB to create the database for storing user information.
+Worked with MongoDB to create the database for storing user information. Created hashing script for handling logins using Jquery.
 
 Stanley Lee:
+Created virtual coin system for the win-win based game. Worked with Bootstrap and pure CSS animations to create the landing and login page.
