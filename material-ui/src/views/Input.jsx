@@ -7,7 +7,7 @@ import {
   } from "reactstrap";
 
 const InputWeight = () => (
-  <form>
+  <form method="POST" action="">
     <Container>
         <Row>
             <Col xs="10">
