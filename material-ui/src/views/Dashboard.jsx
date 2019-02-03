@@ -6,6 +6,7 @@ import { Line, Bar } from "react-chartjs-2";
 import InputWeight from './Input.jsx';
 import axios from 'axios';
 import TodoItem from './TodoItem';
+import RankItem from './RankItem';
 import '../assets/css/dashboard.css';
 
 // reactstrap components
@@ -60,6 +61,38 @@ class Dashboard extends React.Component {
         {
           title:"Stop drinking energy drinks",
           id:4
+        }
+      ],
+      rankings: [
+        {
+          rank:1,
+          name:'Jason Tran',
+          city:'Monrovia, CA',
+          earnings:'$1,250'
+        },
+        {
+          rank:2,
+          name:'Stanley Lee',
+          city:'San Gabriel, CA',
+          earnings:'$985'
+        },
+        {
+          rank:3,
+          name:'Jeffrey Ha',
+          city:'Rosemead, CA',
+          earnings:'$800'
+        },
+        {
+          rank:4,
+          name:'Demetrius Ly',
+          city:'Temple City, CA',
+          earnings:'$600'
+        },
+        {
+          rank:5,
+          name:'Andrea Chu',
+          city:'Arcadia, CA',
+          earnings:'$560'
         }
       ]
     };
@@ -133,7 +166,7 @@ class Dashboard extends React.Component {
             <Col lg="6" md="12">
               <Card className="card-tasks">
                 <CardHeader>
-                  <h6 className="title d-inline">Tasks(5)</h6>
+                  <h6 className="title d-inline">To-Do List</h6>
                   <p className="card-category d-inline"> today</p>
                 </CardHeader>
                 <CardBody>
@@ -146,63 +179,10 @@ class Dashboard extends React.Component {
             <Col lg="6" md="12">
               <Card>
                 <CardHeader>
-                  <CardTitle tag="h4">Simple Table</CardTitle>
+                  <CardTitle tag="h4">Leaderboard</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <Table className="tablesorter" responsive>
-                    <thead className="text-primary">
-                      <tr>
-                        <th>Name</th>
-                        <th>Country</th>
-                        <th>City</th>
-                        <th className="text-center">Salary</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Dakota Rice</td>
-                        <td>Niger</td>
-                        <td>Oud-Turnhout</td>
-                        <td className="text-center">$36,738</td>
-                      </tr>
-                      <tr>
-                        <td>Minerva Hooper</td>
-                        <td>Curaçao</td>
-                        <td>Sinaai-Waas</td>
-                        <td className="text-center">$23,789</td>
-                      </tr>
-                      <tr>
-                        <td>Sage Rodriguez</td>
-                        <td>Netherlands</td>
-                        <td>Baileux</td>
-                        <td className="text-center">$56,142</td>
-                      </tr>
-                      <tr>
-                        <td>Philip Chaney</td>
-                        <td>Korea, South</td>
-                        <td>Overland Park</td>
-                        <td className="text-center">$38,735</td>
-                      </tr>
-                      <tr>
-                        <td>Doris Greene</td>
-                        <td>Malawi</td>
-                        <td>Feldkirchen in Kärnten</td>
-                        <td className="text-center">$63,542</td>
-                      </tr>
-                      <tr>
-                        <td>Mason Porter</td>
-                        <td>Chile</td>
-                        <td>Gloucester</td>
-                        <td className="text-center">$78,615</td>
-                      </tr>
-                      <tr>
-                        <td>Jon Porter</td>
-                        <td>Portugal</td>
-                        <td>Gloucester</td>
-                        <td className="text-center">$98,615</td>
-                      </tr>
-                    </tbody>
-                  </Table>
+                  <RankItem rankings={ this.state.rankings }/>
                 </CardBody>
               </Card>
             </Col>
