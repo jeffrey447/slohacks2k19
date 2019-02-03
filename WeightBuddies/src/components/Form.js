@@ -1,8 +1,7 @@
 import React from 'react'
 // import { Button, Checkbox, Form, Divider } from 'semantic-ui-react'
 import '../stylesheets/form.css'
-import 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'
-import '../js/login.js'
+import $ from 'jquery'
 
 const FormExampleForm = () => (
 //   <Form>
@@ -31,6 +30,13 @@ const FormExampleForm = () => (
                 </div>
                 <button type="submit">Log In</button>
             </form>
+
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script type="text/javascript">
+                $(window).on('load', function() {
+                    console.debug("TEST!");
+                });
+            </script>
         </div>
 )
 

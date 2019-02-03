@@ -3,7 +3,7 @@ from db import UserDatabase
 import os
 
 app = Flask(__name__)
-db = UserDatabase("testDatabase")
+db = UserDatabase("testDB1")
 
 def formatOutput(success, message, data):
   return {
@@ -26,7 +26,15 @@ def user(username):
         message = "User (" + username + ") is not found."
 
         if user is not None:
-          return jsonify(formatOutput(True, None, user))
+          dataTable = {
+            "user": user,
+            "supporter": None
+          }
+
+          if user.supporter is not None:
+            dataTable.supporter = db.getUser(user.supporter, True)
+            
+          return jsonify(formatOutput(True, None, dataTable))
         else:
           return jsonify(formatOutput(False, message, []))
       elif action == "update":
@@ -61,10 +69,36 @@ def user(username):
             data = db.getUser(username, True)
           else:
             message = "Username (" + username + ") is taken."
-
+          
           return jsonify(formatOutput(success, message, data))
         else:
           return jsonify(formatOutput(False, "Missing fields.", []))
+      elif action == "support":
+        args = request.args
+
+        other = args.get("other")
+        message = "User (" + username + ") is not found."
+        
+        if other is not None:
+          user = db.getUser(username, True)
+          otherUser = db.getUser(other, True)
+
+          if user is not None:
+            if otherUser is not None:
+              success = db.updateUserField(username, "supporter", otherUser)
+              if success:
+                success = db.updateUserField(other, "supporter", user)
+
+                if success is False:
+                  message = "Unknown error."
+              else:
+                message = "Unknown error."
+            else:
+              message = "User (" + other + ") is not found."
+        
+        return jsonify(formatOutput(success, message, []))
+      else:
+        return jsonify(formatOutput(False, "Unknown action.", []))
     else:
       abort(403)
   else:

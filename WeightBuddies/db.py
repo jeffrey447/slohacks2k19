@@ -22,10 +22,11 @@ class UserDatabase:
       pwhash = self.md5_hash(pw)
       data = { "username": username,
               "name": name,
-              "pass_hash": pwhash,
-              "weight_data": {}, # contains tuples of weight & date
+              "passHash": pwhash,
+              "weightData": {}, # contains tuples of weight & date
               "coins": 0,
-              "role": role # 0: mentor, 1: mentee
+              "role": role, # 0: mentor, 1: mentee
+              "supporter": None
             }
       
       return self.table.insert_one(data)

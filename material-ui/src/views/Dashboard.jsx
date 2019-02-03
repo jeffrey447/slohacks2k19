@@ -141,7 +141,7 @@ class Dashboard extends React.Component {
                 <CardBody>
                   <div className="chart-area">
                     <Line
-                      data={chartExample1[this.state.bigChartData]}
+                      data={chartExample1["data1"]()}
                       options={chartExample1.options}
                     />
                   </div>
