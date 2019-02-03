@@ -1,6 +1,8 @@
 import React from 'react'
 // import { Button, Checkbox, Form, Divider } from 'semantic-ui-react'
 import '../stylesheets/form.css'
+import 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'
+import '../js/login.js'
 
 const FormExampleForm = () => (
 //   <Form>

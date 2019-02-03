@@ -73,4 +73,5 @@ var routes = [
   //   layout: "/rtl"
   // }
 ];
+
 export default routes;
