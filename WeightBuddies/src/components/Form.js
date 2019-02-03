@@ -4,20 +4,6 @@ import '../stylesheets/form.css'
 import $ from 'jquery'
 
 const FormExampleForm = () => (
-//   <Form>
-//     <Form.Field>
-//       <label>First Name</label>
-//       <input placeholder='First Name' />
-//     </Form.Field>
-//     <Form.Field>
-//       <label>Last Name</label>
-//       <input placeholder='Last Name' />
-//     </Form.Field>
-//     <Form.Field>
-//       <Checkbox label='I agree to the Terms and Conditions' />
-//     </Form.Field>
-//     <Button type='submit' className="blue">Submit</Button>
-//   </Form>
         <div className = "form">
             <form method="GET" action="/user">
                 <div className="input-container">
@@ -30,13 +16,6 @@ const FormExampleForm = () => (
                 </div>
                 <button type="submit">Log In</button>
             </form>
-
-            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <script type="text/javascript">
-                $(window).on('load', function() {
-                    console.debug("TEST!");
-                });
-            </script>
         </div>
 )
 

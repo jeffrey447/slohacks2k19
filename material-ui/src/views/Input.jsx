@@ -36,10 +36,11 @@ class InputWeight extends React.Component {
     }
 
     handleUpdateWeight() {
-        if (this.state.weight.trim().length > 0) {
-            if (isNaN(this.state.weight) == false) {
+        let weightS = this.state.weight.trim();
+        if (weightS.trim().length > 0) {
+            if (isNaN(weightS) == false) {
                 $.ajax({
-                    url: "http://localhost:7000/api/user/" + username + "?weight=" + this.state.weight.trim(),
+                    url: "http://localhost:7000/api/user/" + username + "?weight=" + weightS,
                     type: "POST",
                     data: {
                         action: "addWeight"
@@ -47,8 +48,50 @@ class InputWeight extends React.Component {
                     dataType: "json",
                     success: function(result) {
                         if (result.success) {
-                            // refresh the page, dab
-                            window.location.href = window.location.pathname + window.location.search + window.location.hash;
+                            let weight = parseInt(weightS);
+                            let updateM = false;
+                            let mult = 0;
+                            let coins = 0;
+                            
+                            if (weight > 200 && weight <= 250) {
+                                mult = 1.5;
+                                coins += 750;
+                                updateM = true;
+                            }
+                            
+                            if (weight <= 200 && updateM == false) {
+                                mult = 2.25;
+                                coins += 1150;
+                                updateM = true;
+                            }
+                            
+                            if (updateM) {
+                                $.ajax({
+                                    url: "http://localhost:7000/api/user/" + username + "?key=coins&val=" + coins,
+                                    type: "POST",
+                                    data: {
+                                        action: "update"
+                                    },
+                                    dataType: "json",
+                                    success: function(result) {
+                                        $.ajax({
+                                            url: "http://localhost:7000/api/user/" + username + "?key=multiplier&val=" + mult,
+                                            type: "POST",
+                                            data: {
+                                                action: "update"
+                                            },
+                                            dataType: "json",
+                                            success: function(result) {
+                                                // refresh the page, dab
+                                                window.location.href = window.location.pathname + window.location.search + window.location.hash;
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                // refresh the page, dab
+                                window.location.href = window.location.pathname + window.location.search + window.location.hash;
+                            }
                         } else {
                             alert(result.message);
                         }

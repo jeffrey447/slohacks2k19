@@ -5,7 +5,7 @@ from datetime import datetime
 import os, calendar
 
 app = Flask(__name__)
-db = UserDatabase("test111")
+db = UserDatabase("test1115x")
 
 def formatOutput(success, message, data):
   return {
@@ -104,6 +104,8 @@ def user(username):
 
           if success is True:
             data = db.getUser(username, True)
+            if data is None:
+              data = {}
           else:
             message = "User (" + username + ") is not found."
           

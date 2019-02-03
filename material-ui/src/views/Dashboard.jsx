@@ -137,7 +137,7 @@ class Dashboard extends React.Component {
   
               let x2 = [];
               let y2 = [];
-  
+              
               let count = 0;
               for (let i = 0; i < data.user.weightData.length; i++) {
                 let item = data.user.weightData[i];
