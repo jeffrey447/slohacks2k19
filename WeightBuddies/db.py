@@ -52,8 +52,11 @@ class UserDatabase:
 
 # db = UserDatabase("testDB")
 # db.registerUser("jeef110", "jeef", "o", 0)
+
+# date = datetime.now()
 # db.updateUserField("jeef110", "weight_data", {
 #  {
-#      { "weight": 100, "date": <dateTime>}
+#      { "weight": 100, "date": calendar.month_abbr[date.month] + " " + 
+#                                 str(date.day) + ", " + str(date.year) }
 #  }
 # })
