@@ -446,7 +446,7 @@ class Dashboard extends React.Component {
                 <CardBody>
                   <div className="chart-area">
                     <Line
-                      data={this.state.points}
+                      data={this.state.points1}
                       options={chartOptions}
                     />
                   </div>

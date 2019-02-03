@@ -20,7 +20,7 @@ function getCookie(name) {
 }
 
 let username = getCookie("session");
-if (username == null) {
+if (username == null && window.location != "http://localhost:3000/") {
     alert("Not logged in.");
     window.location = '/';
 }
@@ -47,7 +47,6 @@ class InputWeight extends React.Component {
                     dataType: "json",
                     success: function(result) {
                         if (result.success) {
-                            alert("success");
                             // refresh the page, dab
                             window.location.href = window.location.pathname + window.location.search + window.location.hash;
                         } else {
