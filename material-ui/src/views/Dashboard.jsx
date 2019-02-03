@@ -103,9 +103,34 @@ let chartOptions = {
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      bigChartData: "data1"
+      bigChartData: "data1",
+      points: {
+        labels: [],
+                datasets: [
+                  {
+                    label: "Data",
+                    fill: true,
+                    borderColor: "#1f8ef1",
+                    borderWidth: 2,
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    pointBackgroundColor: "#1f8ef1",
+                    pointBorderColor: "rgba(255,255,255,0)",
+                    pointHoverBackgroundColor: "#1f8ef1",
+                    pointBorderWidth: 20,
+                    pointHoverRadius: 4,
+                    pointHoverBorderWidth: 15,
+                    pointRadius: 4,
+                    data: []
+                  }
+                ]
+      }
     };
+
+    this.setBgChartData = this.setBgChartData.bind(true);
+    this.loadData = this.loadData.bind(this);
   }
 
   setBgChartData = name => {
@@ -116,91 +141,104 @@ class Dashboard extends React.Component {
 
   loadData = canvas => {
     let mainUser = getCookie("session");
+    let setState = this.setState;
+    
     if (mainUser != null) {
-      let result = $.ajax({
+      $.ajax({
         url: "http://localhost:7000/api/user/" + mainUser,
         type: "POST",
         data: {
             action: "getInfo"
         },
-        async: false,
-        dataType: "json"});
-      alert("s: " + result.success);
-      if (result.success === true) {
-          let data = result.data;
-          if (data != null && data.supporter != null) {
-            let x1 = [];
-            let y1 = [];
+        dataType: "text",
+        success: function(jsonData) {
+          let result = $.parseJSON(jsonData);
+          
+          if (result.success) {
+            let data = result.data;
+            if (data.user != null && data.supporter != null) {
+              let x1 = [];
+              let y1 = [];
+  
+              let x2 = [];
+              let y2 = [];
+  
+              let count = 0;
+              for (let i = 0; i < data.user.weightData.length; i++) {
+                let item = data.user.weightData[i];
 
-            let x2 = [];
-            let y2 = [];
+                x1.push(item.date);
+                y1.push(item.weight);
+                count++;
+              }
+              
+              if (count > 12) {
+                let lastIndex = x1.length - 1;
+                let startIndex = lastIndex - 12;
+                if (startIndex < 0) { startIndex = 0; }
+  
+                x1.slice(startIndex, lastIndex);
+                y1.slice(startIndex, lastIndex);
+              }
+  
+              count = 0;
+              for (let i = 0; i < data.supporter.weightData.length; i++) {
+                let item = data.supporter.weightData[i];
 
-            let count = 0;
-            data.weightData.forEach(function(item) {
-              x1.push(item.date);
-              y1.push(item.weight);
-              count++;
-            });
+                x2.push(item.date);
+                y2.push(item.weight);
+                count++;
+              }
 
-            if (count > 12) {
-              let lastIndex = x1.length - 1;
-              let startIndex = lastIndex - 12;
-              if (startIndex < 0) { startIndex = 0; }
-
-              x1.slice(startIndex, lastIndex);
-              y1.slice(startIndex, lastIndex);
-            }
-
-            count = 0;
-            data.supporter.weightData.forEeach(function(item) {
-              x2.push(item.date);
-              y2.push(item.weight);
-              count++;
-            });
-
-            if (count > 12) {
-              let lastIndex = x2.length - 1;
-              let startIndex = lastIndex - 12;
-              if (startIndex < 0) { startIndex = 0; }
-
-              x2.slice(startIndex, lastIndex);
-              y2.slice(startIndex, lastIndex);
-            }
-
-            let ctx = canvas.getContext("2d");
-
-            let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
-
-            gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
-            gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
-            gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
-
-            return {
-              labels: x1,
-              datasets: [
-                {
-                  label: "Data",
-                  fill: true,
-                  backgroundColor: gradientStroke,
-                  borderColor: "#1f8ef1",
-                  borderWidth: 2,
-                  borderDash: [],
-                  borderDashOffset: 0.0,
-                  pointBackgroundColor: "#1f8ef1",
-                  pointBorderColor: "rgba(255,255,255,0)",
-                  pointHoverBackgroundColor: "#1f8ef1",
-                  pointBorderWidth: 20,
-                  pointHoverRadius: 4,
-                  pointHoverBorderWidth: 15,
-                  pointRadius: 4,
-                  data: y1
+              if (count > 12) {
+                let lastIndex = x2.length - 1;
+                let startIndex = lastIndex - 12;
+                if (startIndex < 0) { startIndex = 0; }
+  
+                x2.slice(startIndex, lastIndex);
+                y2.slice(startIndex, lastIndex);
+              }
+  
+              let ctx = canvas.getContext("2d");
+  
+              let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+  
+              gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
+              gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
+              gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
+              alert("SET");
+              setState({
+                points: {
+                  labels: x1,
+                  datasets: [
+                    {
+                      label: "Data",
+                      fill: true,
+                      backgroundColor: gradientStroke,
+                      borderColor: "#1f8ef1",
+                      borderWidth: 2,
+                      borderDash: [],
+                      borderDashOffset: 0.0,
+                      pointBackgroundColor: "#1f8ef1",
+                      pointBorderColor: "rgba(255,255,255,0)",
+                      pointHoverBackgroundColor: "#1f8ef1",
+                      pointBorderWidth: 20,
+                      pointHoverRadius: 4,
+                      pointHoverBorderWidth: 15,
+                      pointRadius: 4,
+                      data: y1
+                    }
+                  ]
                 }
-              ]
-            };
-          }
-      } else {
-          //alert(result.message);
-      }
+              });
+
+              
+            }
+        } else {
+            alert(result.message);
+        }
+        }
+      });
     }
   };
 
@@ -296,7 +334,7 @@ class Dashboard extends React.Component {
                 <CardBody>
                   <div className="chart-area">
                     <Line
-                      data={this.loadData}
+                      data={this.state.points}
                       options={chartOptions}
                     />
                   </div>
@@ -399,7 +437,7 @@ class Dashboard extends React.Component {
                 <CardBody>
                   <div className="chart-area">
                     <Line
-                      data={this.loadData}
+                      data={this.state.points}
                       options={chartOptions}
                     />
                   </div>

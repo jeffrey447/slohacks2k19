@@ -20,7 +20,7 @@ def user(username):
     action = formData.get("action")
     if action is not None:
       action = action.lower() # to avoid case sensitive actions
-      print(action);
+      
       if action == "getinfo":
         user = db.getUser(username, True)
         message = "User (" + username + ") is not found."
@@ -36,7 +36,6 @@ def user(username):
             if dataTable['supporter'] is None:
               dataTable['supporter'] = []
 
-          print("wow")
           return jsonify(formatOutput(True, "", dataTable))
         else:
           return jsonify(formatOutput(False, message, []))
