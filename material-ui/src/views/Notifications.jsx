@@ -43,10 +43,6 @@ class Notifications extends React.Component {
       place: place,
       message: (
         <div>
-          <div>
-            Welcome to <b>Black Dashboard React</b> - a beautiful freebie for
-            every web developer.
-          </div>
         </div>
       ),
       type: type,
@@ -63,43 +59,32 @@ class Notifications extends React.Component {
             <NotificationAlert ref="notificationAlert" />
           </div>
           <Row>
-            <Col md="6">
+            <Col md="10">
               <Card>
                 <CardHeader>
-                  <CardTitle tag="h4">Notifications Style</CardTitle>
+                  <CardTitle tag="h4">Notifications</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <Alert color="info">
-                    <span>This is a plain notification</span>
-                  </Alert>
-                  <UncontrolledAlert color="info">
-                    <span>This is a notification with close button.</span>
+                  <UncontrolledAlert color="primary">
+                    <span>You have reached your final checkpoint!</span>
                   </UncontrolledAlert>
-                  <UncontrolledAlert className="alert-with-icon" color="info">
-                    <span
-                      className="tim-icons icon-bell-55"
-                      data-notify="icon"
-                    />
-                    <span data-notify="message">
-                      This is a notification with close button and icon.
+                  <UncontrolledAlert color="primary">
+                    <span>You have reached your second checkpoint!</span>
+                  </UncontrolledAlert>
+                  <UncontrolledAlert color="primary">
+                    <span colo="info">
+                      You have successfully completed your first checkpoint!
                     </span>
                   </UncontrolledAlert>
-                  <UncontrolledAlert className="alert-with-icon" color="info">
-                    <span
-                      className="tim-icons icon-bell-55"
-                      data-notify="icon"
-                    />
+                  <UncontrolledAlert color="info">
                     <span data-notify="message">
-                      This is a notification with close button and icon and have
-                      many lines. You can see that the icon and the close button
-                      are always vertically aligned. This is a beautiful
-                      notification. So you don't have to worry about the style.
+                      Welcome to Weight Buddy! Together, we will help you and the partner you are assigned with achieve their goals!
                     </span>
                   </UncontrolledAlert>
                 </CardBody>
               </Card>
             </Col>
-            <Col md="6">
+            {/* <Col md="6">
               <Card>
                 <CardHeader>
                   <CardTitle tag="h4">Notification states</CardTitle>
@@ -137,8 +122,8 @@ class Notifications extends React.Component {
                   </UncontrolledAlert>
                 </CardBody>
               </Card>
-            </Col>
-            <Col md="12">
+            </Col> */}
+            {/* <Col md="12">
               <Card>
                 <CardBody>
                   <div className="places-buttons">
@@ -220,7 +205,7 @@ class Notifications extends React.Component {
                   </div>
                 </CardBody>
               </Card>
-            </Col>
+            </Col> */}
           </Row>
         </div>
       </>
