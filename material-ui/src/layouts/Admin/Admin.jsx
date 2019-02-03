@@ -94,15 +94,11 @@ class Admin extends React.Component {
     return (
       <>
         <div className="wrapper">
+          { document.body.classList.add("white-content") }
           <Sidebar
             {...this.props}
             routes={routes}
             bgColor={this.state.backgroundColor}
-            logo={{
-              outterLink: "https://www.creative-tim.com/",
-              text: "Creative Tim",
-              imgSrc: logo
-            }}
             toggleSidebar={this.toggleSidebar}
           />
           <div
@@ -123,10 +119,10 @@ class Admin extends React.Component {
             )}
           </div>
         </div>
-        <FixedPlugin
+        {/* <FixedPlugin
           bgColor={this.state.backgroundColor}
           handleBgClick={this.handleBgClick}
-        />
+        /> */}
       </>
     );
   }
