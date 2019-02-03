@@ -32,10 +32,14 @@ class UserDatabase:
     
     return False
   
-  def getUser(self, username):
+  def getUser(self, username, excludeId = False):
     for user in self.table.find():
       if user["username"] == username:
-        return user
+        new = user.copy()
+        if excludeId is True:
+          new.pop("_id", None)
+
+        return new
     
     return None
   
