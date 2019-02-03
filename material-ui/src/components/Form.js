@@ -35,6 +35,7 @@ class LoginForm extends React.Component {
                 },
                 dataType: "json",
                 success: function(result) {
+                    alert(result.success);
                     if (result.success) {
                         setCookie("session", username, 7);
                         window.location = './admin/dashboard';

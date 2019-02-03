@@ -106,42 +106,17 @@ class Dashboard extends React.Component {
 
     this.state = {
       bigChartData: "data1",
-      points: {
-        labels: [],
-                datasets: [
-                  {
-                    label: "Data",
-                    fill: true,
-                    borderColor: "#1f8ef1",
-                    borderWidth: 2,
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    pointBackgroundColor: "#1f8ef1",
-                    pointBorderColor: "rgba(255,255,255,0)",
-                    pointHoverBackgroundColor: "#1f8ef1",
-                    pointBorderWidth: 20,
-                    pointHoverRadius: 4,
-                    pointHoverBorderWidth: 15,
-                    pointRadius: 4,
-                    data: []
-                  }
-                ]
-      }
+      points: null,
+      points1: null
     };
 
     this.setBgChartData = this.setBgChartData.bind(true);
     this.loadData = this.loadData.bind(this);
   }
 
-  setBgChartData = name => {
-    this.setState({
-      bigChartData: name
-    });
-  };
-
-  loadData = canvas => {
+  componentDidMount() {
     let mainUser = getCookie("session");
-    let setState = this.setState;
+    const setState = this.setState.bind(this);
     
     if (mainUser != null) {
       $.ajax({
@@ -199,20 +174,20 @@ class Dashboard extends React.Component {
                 y2.slice(startIndex, lastIndex);
               }
   
-              let ctx = canvas.getContext("2d");
+              let ctx = document.createElement("canvas").getContext("2d");
   
               let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
   
               gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
               gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
               gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
-              alert("SET");
+              
               setState({
                 points: {
                   labels: x1,
                   datasets: [
                     {
-                      label: "Data",
+                      label: "Weight",
                       fill: true,
                       backgroundColor: gradientStroke,
                       borderColor: "#1f8ef1",
@@ -229,6 +204,29 @@ class Dashboard extends React.Component {
                       data: y1
                     }
                   ]
+                },
+
+                points1: {
+                  labels: x2,
+                  datasets: [
+                    {
+                      label: "Weight",
+                      fill: true,
+                      backgroundColor: gradientStroke,
+                      borderColor: "#1f8ef1",
+                      borderWidth: 2,
+                      borderDash: [],
+                      borderDashOffset: 0.0,
+                      pointBackgroundColor: "#1f8ef1",
+                      pointBorderColor: "rgba(255,255,255,0)",
+                      pointHoverBackgroundColor: "#1f8ef1",
+                      pointBorderWidth: 20,
+                      pointHoverRadius: 4,
+                      pointHoverBorderWidth: 15,
+                      pointRadius: 4,
+                      data: y2
+                    }
+                  ]
                 }
               });
 
@@ -240,11 +238,22 @@ class Dashboard extends React.Component {
         }
       });
     }
+  }
+
+  setBgChartData = name => {
+    this.setState({
+      bigChartData: name
+    });
   };
 
+  loadData = canvas => {
+  };
+
+
+
   render() {
+
     return (
-      <>
         <div className="content">
           <Row>
             <Col xs="12">
@@ -742,7 +751,6 @@ class Dashboard extends React.Component {
             </Col>
           </Row>
         </div>
-      </>
     );
   }
 }

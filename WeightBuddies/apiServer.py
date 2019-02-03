@@ -1,9 +1,10 @@
 from flask import Flask, request, abort, jsonify
 from db import UserDatabase
-import os
+from datetime import datetime
+import os, calendar
 
 app = Flask(__name__)
-db = UserDatabase("testDB1")
+db = UserDatabase("testDB324S51")
 
 def formatOutput(success, message, data):
   return {
@@ -12,7 +13,7 @@ def formatOutput(success, message, data):
     "data": data
   }
 
-@app.route("/api/user/<string:username>", methods=["POST"])
+@app.route("/api/user/<string:username>", methods=["GET", "POST"])
 def user(username):
   if request.method == "POST":
     formData = request.form
@@ -23,7 +24,6 @@ def user(username):
       
       if action == "getinfo":
         user = db.getUser(username, True)
-        message = "User (" + username + ") is not found."
 
         if user is not None:
           dataTable = {
@@ -38,7 +38,7 @@ def user(username):
 
           return jsonify(formatOutput(True, "", dataTable))
         else:
-          return jsonify(formatOutput(False, message, []))
+          return jsonify(formatOutput(False, "User (" + username + ") is not found.", []))
       elif action == "update":
         args = request.args
         
@@ -48,7 +48,7 @@ def user(username):
         if key is not None and val is not None:
           success = db.updateUserField(username, key, val)
           message = ""
-          data = []
+          data = {}
 
           if success is True:
             data = db.getUser(username, True)
@@ -64,13 +64,13 @@ def user(username):
         role = args.get("role")
 
         if name is not None and pw is not None and role is not None:
-          success = db.registerUser(username, name, pw, role)
-          data = []
+          success = (db.registerUser(username, name, pw, role) is not None)
+          data = {}
           message = ""
           if success is True:
             data = db.getUser(username, True)
             if data is None:
-              data = []
+              data = {}
           else:
             message = "Username (" + username + ") is taken."
           
@@ -80,6 +80,7 @@ def user(username):
       elif action == "support":
         args = request.args
 
+        success = False
         other = args.get("other")
         message = ""
         
@@ -100,9 +101,49 @@ def user(username):
             else:
               message = "User (" + other + ") is not found."
         
-        return jsonify(formatOutput(success, message, []))
+        return jsonify(formatOutput(success, message, {}))
+      elif action == "addweight":
+        args = request.args
+        
+        weight = args.get("weight")
+        message = ""
+        success = True
+
+        if weight is not None:
+          try:
+            weight = int(weight)
+          except ValueError:
+            message = "Invalid weight number."
+            success = False
+          
+          if success is True:
+            if weight > 0:
+              user = db.getUser(username, True)
+              
+              if user is not None:
+                date = datetime.now()
+                month = calendar.month_name[date.month][:3]
+
+                user['weightData'].append({
+                  "weight": weight,
+                  "date": month + " " + str(date.day) + ", " + str(date.year)
+                })
+
+                success = db.updateUserField(username, "weightData", user['weightData'])
+                if success:
+                  message = ""
+                else:
+                  message = "Unknown error."
+              else:
+                success = False
+                message = "User (" + username + ") is not found."
+            else:
+              success = False
+              message = "Weight number must be positive."
+
+        return jsonify(formatOutput(success, message, {})) 
       else:
-        return jsonify(formatOutput(False, "Unknown action.", []))
+        return jsonify(formatOutput(False, "Unknown action.", {}))
     else:
       abort(403)
   else:

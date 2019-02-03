@@ -23,13 +23,14 @@ class UserDatabase:
       data = { "username": username,
               "name": name,
               "passHash": pwhash,
-              "weightData": {}, # contains tuples of weight & date
+              "weightData": [],
               "coins": 0,
               "role": role, # 0: mentor, 1: mentee
               "supporter": None
             }
       
-      return self.table.insert_one(data)
+      self.table.insert_one(data)
+      return True
     
     return False
   
