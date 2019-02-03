@@ -1,5 +1,6 @@
 from flask import Flask, request, abort, jsonify
 from db import UserDatabase
+from main import Points
 from datetime import datetime
 import os, calendar
 
@@ -12,6 +13,57 @@ def formatOutput(success, message, data):
     "message": message,
     "data": data
   }
+
+def getMonthNumber(dateStr):
+  m = {
+        'jan': 1,
+        'feb': 2,
+        'mar': 3,
+        'apr':4,
+         'may':5,
+         'jun':6,
+         'jul':7,
+         'aug':8,
+         'sep':9,
+         'oct':10,
+         'nov':11,
+         'dec':12
+        }
+        
+  s = dateStr.strip()[:3].lower()
+
+  try:
+      out = m[s]
+      return out
+  except:
+      raise ValueError('Not a valid month.')
+
+def getDateTime(dateString):
+  return datetime.strptime(dateString + ' 12:00PM', '%b %d %Y %I %M%p')
+
+@app.route("/api/points/<string:action>", methods=["GET"])
+def points(action):
+  if request.method == "GET":
+    args = request.args
+
+    username = args.get("user")
+    if username is not None:
+      user = db.getUser(username, True)
+
+      action = action.lower()
+      if action == "checkpoint":
+        wData = user['weightData']
+        if len(wData) > 0:
+          first = wData[0]
+          actualDate = getDateTime(first['date'])
+          
+          return jsonify(formatOutput(True, '', Points.checkpoints(first['weight'], actualDate)))
+        else:
+          return jsonify(formatOutput(False, 'Invalid data.', {}))
+      else:
+        return jsonify(formatOutput(False, 'Invalid action.', {}))
+    else:
+      return jsonify(formatOutput(False, 'Invalid user.', {}))
 
 @app.route("/api/user/<string:username>", methods=["GET", "POST"])
 def user(username):

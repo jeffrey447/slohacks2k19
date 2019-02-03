@@ -112,7 +112,6 @@ class Dashboard extends React.Component {
     };
 
     this.setBgChartData = this.setBgChartData.bind(true);
-    this.loadData = this.loadData.bind(this);
   }
 
   componentDidMount() {
@@ -229,8 +228,6 @@ class Dashboard extends React.Component {
                   ]
                 }
               });
-
-              
             }
         } else {
             alert(result.message);
@@ -246,13 +243,7 @@ class Dashboard extends React.Component {
     });
   };
 
-  loadData = canvas => {
-  };
-
-
-
   render() {
-
     return (
         <div className="content">
           <Row>
@@ -478,9 +469,9 @@ class Dashboard extends React.Component {
                             </FormGroup>
                           </td>
                           <td>
-                            <p className="title">Lose weight</p>
+                            <p className="title">Checkpoint 1</p>
                             <p className="text-muted">
-                            Lose weight
+                            Lose 50 pounds within 6 months - multiplier 1.5x
                             </p>
                           </td>
                           {/* <td className="td-actions text-right">
@@ -517,9 +508,9 @@ class Dashboard extends React.Component {
                             </FormGroup>
                           </td>
                           <td>
-                            <p className="title">Lose weight</p>
+                            <p className="title">Checkpoint 2</p>
                             <p className="text-muted">
-                            Lose weight
+                            Lose 100 pounds with 12 months - multipler 2.25x
                             </p>
                           </td>
                           {/* <td className="td-actions text-right">
@@ -547,9 +538,9 @@ class Dashboard extends React.Component {
               </Card>
             </Col>
             <Col lg="6" md="12">
-              <Card>
+              <Card>S
                 <CardHeader>
-                  <CardTitle tag="h4">Simple Table</CardTitle>
+                  <CardTitle tag="h4">Leaderboard</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <Table className="tablesorter" responsive>
@@ -558,7 +549,7 @@ class Dashboard extends React.Component {
                         <th>Name</th>
                         <th>Country</th>
                         <th>City</th>
-                        <th className="text-center">Salary</th>
+                        <th className="text-center">Coins</th>
                       </tr>
                     </thead>
                     <tbody>

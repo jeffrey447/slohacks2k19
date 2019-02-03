@@ -15,7 +15,17 @@ function getCookie(name) {
   }
 
 class Coin extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            coins: 0,
+            mult: 0
+        };
+    }
+
     componentDidMount() {
+        const setState = this.setState.bind(this);
         let mainUser = getCookie("session");
         if (mainUser != null) {
             $.ajax({
@@ -27,12 +37,14 @@ class Coin extends React.Component {
                 dataType: "text",
                 success: function(jsonData) {
                     let result = $.parseJSON(jsonData);
-                    alert(result.success);
+                    
                     if (result.success && result.data != null) {
-                        let data = result.data;
-
-                        $("#coin").val(data.coins.toString() + " Coins");
-                        $("#mult").val("x" + data.multiplier.toString() + " multiplier");
+                        let data = result.data.user;
+                        
+                        setState({
+                            coins: data.coins,
+                            mult: data.multiplier
+                        });
                     } else {
                         alert(result.message);
                     }
@@ -44,9 +56,9 @@ class Coin extends React.Component {
     render() {
         return (
             <Card className="container">
-                <Card.Meta id="mult">x1.0 multiplier</Card.Meta>
+                <Card.Meta id="mult">x{this.state.mult} multiplier</Card.Meta>
                 <Card.Description>
-                    <h1 id="coin">500 Coins</h1>
+                    <h1 id="coin">{this.state.coins} Coin(s)</h1>
                     <hr></hr>
                     Current reward upon completion.
                 </Card.Description>
