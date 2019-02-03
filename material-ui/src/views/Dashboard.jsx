@@ -4,6 +4,7 @@ import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
 import InputWeight from './Input.jsx';
+import Coin from './Coin.jsx';
 import '../assets/css/dashboard.css';
 import $ from 'jquery';
 
@@ -739,6 +740,9 @@ class Dashboard extends React.Component {
                   </Table>
                 </CardBody>
               </Card>
+            </Col>
+            <Col xs="6">
+              <Coin />
             </Col>
           </Row>
         </div>
