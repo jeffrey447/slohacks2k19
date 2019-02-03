@@ -4,7 +4,7 @@ from datetime import datetime
 import os, calendar
 
 app = Flask(__name__)
-db = UserDatabase("testDB324S51")
+db = UserDatabase("test111")
 
 def formatOutput(success, message, data):
   return {

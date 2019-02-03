@@ -26,7 +26,8 @@ class UserDatabase:
               "weightData": [],
               "coins": 0,
               "role": role, # 0: mentor, 1: mentee
-              "supporter": None
+              "supporter": None,
+              "multiplier": 1.0
             }
       
       self.table.insert_one(data)

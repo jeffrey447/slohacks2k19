@@ -176,7 +176,6 @@ class Dashboard extends React.Component {
               }
   
               let ctx = document.createElement("canvas").getContext("2d");
-  
               let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
   
               gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
@@ -460,8 +459,8 @@ class Dashboard extends React.Component {
             <Col lg="6" md="12">
               <Card className="card-tasks">
                 <CardHeader>
-                  <h6 className="title d-inline">Tasks(5)</h6>
-                  <p className="card-category d-inline"> today</p>
+                  <h6 className="title d-inline">Checkpoints</h6>
+                  <p className="card-category d-inline"> this year</p>
                 </CardHeader>
                 <CardBody>
                   <div className="table-full-width table-responsive">
@@ -471,7 +470,7 @@ class Dashboard extends React.Component {
                           <td>
                             <FormGroup check>
                               <Label check>
-                                <Input defaultValue="" type="checkbox" />
+                                <Input defaultValue="" disabled type="checkbox" />
                                 <span className="form-check-sign">
                                   <span className="check" />
                                 </span>
@@ -484,7 +483,7 @@ class Dashboard extends React.Component {
                             Lose weight
                             </p>
                           </td>
-                          <td className="td-actions text-right">
+                          {/* <td className="td-actions text-right">
                             <Button
                               color="link"
                               id="tooltip636901683"
@@ -500,15 +499,15 @@ class Dashboard extends React.Component {
                             >
                               Edit Task
                             </UncontrolledTooltip>
-                          </td>
+                          </td> */}
                         </tr>
                         <tr>
                           <td>
                             <FormGroup check>
                               <Label check>
                                 <Input
-                                  defaultChecked
                                   defaultValue=""
+                                  disabled
                                   type="checkbox"
                                 />
                                 <span className="form-check-sign">
@@ -523,7 +522,7 @@ class Dashboard extends React.Component {
                             Lose weight
                             </p>
                           </td>
-                          <td className="td-actions text-right">
+                          {/* <td className="td-actions text-right">
                             <Button
                               color="link"
                               id="tooltip457194718"
@@ -539,147 +538,7 @@ class Dashboard extends React.Component {
                             >
                               Edit Task
                             </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input defaultValue="" type="checkbox" />
-                                <span className="form-check-sign">
-                                  <span className="check" />
-                                </span>
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td>
-                            <p className="title">Lose weight</p>
-                            <p className="text-muted">
-                            Lose weight
-                            </p>
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              color="link"
-                              id="tooltip362404923"
-                              title=""
-                              type="button"
-                            >
-                              <i className="tim-icons icon-pencil" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip362404923"
-                              placement="right"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input defaultValue="" type="checkbox" />
-                                <span className="form-check-sign">
-                                  <span className="check" />
-                                </span>
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td>
-                            <p className="title">Lose weight</p>
-                            <p className="text-muted">
-                            Lose weight
-                            </p>
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              color="link"
-                              id="tooltip818217463"
-                              title=""
-                              type="button"
-                            >
-                              <i className="tim-icons icon-pencil" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip818217463"
-                              placement="right"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input defaultValue="" type="checkbox" />
-                                <span className="form-check-sign">
-                                  <span className="check" />
-                                </span>
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td>
-                            <p className="title">Lose weight</p>
-                            <p className="text-muted">
-                            Lose weight
-                            </p>
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              color="link"
-                              id="tooltip831835125"
-                              title=""
-                              type="button"
-                            >
-                              <i className="tim-icons icon-pencil" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip831835125"
-                              placement="right"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input defaultValue="" type="checkbox" />
-                                <span className="form-check-sign">
-                                  <span className="check" />
-                                </span>
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td>
-                            <p className="title">Lose weight</p>
-                            <p className="text-muted">
-                              Lose weight
-                            </p>
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              color="link"
-                              id="tooltip217595172"
-                              title=""
-                              type="button"
-                            >
-                              <i className="tim-icons icon-pencil" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip217595172"
-                              placement="right"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                          </td>
+                          </td> */}
                         </tr>
                       </tbody>
                     </Table>
