@@ -10,14 +10,15 @@ const InputWeight = () => (
   <form>
     <Container>
         <Row>
-            <Col xs="9">
+            <Col xs="10">
                 <Input
                 label={{ basic: true}}
                 labelPosition='right'
                 placeholder='Enter weight in lbs'
+                name="weight"
                 />
             </Col>
-            <Col xs="3">
+            <Col xs="2">
                 <Button primary>Submit</Button>
             </Col>
         </Row>

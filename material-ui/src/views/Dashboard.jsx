@@ -149,7 +149,7 @@ class Dashboard extends React.Component {
               </Card>
               <Container className="inputWeight">
                 <Row>
-                  <Col xs="9">
+                  <Col xs="12">
                     <InputWeight />
                   </Col>
                 </Row>
