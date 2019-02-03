@@ -161,7 +161,7 @@ class Dashboard extends React.Component {
               </Card>
             </Col>
           </Row>
-          
+
           <Row>
             <Col lg="6" md="12">
               <Card className="card-tasks">
