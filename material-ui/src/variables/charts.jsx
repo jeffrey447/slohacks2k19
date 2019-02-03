@@ -92,7 +92,7 @@ function load(uData, sData) {
   let y2 = [];
 
   let count = 0;
-  uData.weightData.foreach(function(item) {
+  uData.weightData.forEach(function(item) {
     x1.push(item.date);
     y1.push(item.weight);
     count++;
@@ -108,7 +108,7 @@ function load(uData, sData) {
   }
 
   count = 0;
-  sData.weightData.foreach(function(item) {
+  sData.weightData.forEeach(function(item) {
     x2.push(item.date);
     y2.push(item.weight);
     count++;
@@ -124,7 +124,7 @@ function load(uData, sData) {
   }
 
   let chartExample1 = {
-    "data1": canvas => {
+    data1: canvas => {
       let ctx = canvas.getContext("2d");
   
       let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
@@ -449,30 +449,4 @@ function load(uData, sData) {
     chartExample3, // in src/views/Dashboard.jsx
     chartExample4 // in src/views/Dashboard.jsx
   };
-}
-
-let mainUser = getCookie("session");
-if (mainUser != null) {
-  let xhr = new XMLHttpRequest();
-  xhr.responseType = "json";
-
-  xhr.open("POST", "http://localhost:7000/api/user/" + mainUser);
-  xhr.onreadystatechange = function() {
-    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-      var json = JSON.parse(xhr.responseText);
-      if (json.success) {
-        let data = json.data;
-
-        if (data.user != null && data.supporter != null) {
-          console.debug('gotem');
-          load(data.user, data.supporter);
-          return;
-        }
-      }
-    }
-console.debug('yikes');
-    load([], []);
-  }
-
-  xhr.send("action=getinfo");
 }

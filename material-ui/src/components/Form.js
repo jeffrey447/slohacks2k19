@@ -25,9 +25,10 @@ class LoginForm extends React.Component {
     }
 
     handleLogin() {
+        let username = this.state.username;
         if (this.state.username.length > 0 && this.state.pass.length > 0) {
             $.ajax({
-                url: "http://localhost:7000/api/user/" + this.state.username,
+                url: "http://localhost:7000/api/user/" + username,
                 type: "POST",
                 data: {
                     action: "getInfo"
@@ -35,7 +36,7 @@ class LoginForm extends React.Component {
                 dataType: "json",
                 success: function(result) {
                     if (result.success) {
-                        setCookie("session", result.data.username, 7);
+                        setCookie("session", username, 7);
                         window.location = './admin/dashboard';
                     } else {
                         alert(result.message);

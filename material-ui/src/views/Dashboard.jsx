@@ -4,10 +4,8 @@ import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
 import InputWeight from './Input.jsx';
-import axios from 'axios';
-import TodoItem from './TodoItem';
-import RankItem from './RankItem';
 import '../assets/css/dashboard.css';
+import $ from 'jquery';
 
 // reactstrap components
 import {
@@ -32,80 +30,180 @@ import {
 } from "reactstrap";
 
 // core components
-import {
-  chartExample1
+//import {
+  //chartExample1
   // chartExample1,
   // chartExample2,
   // chartExample3,
   // chartExample4
-} from "variables/charts.jsx";
+//} from "variables/charts.jsx";
+
+function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+      var c
+       = ca[i];
+      while (c.charAt(0)===' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
+  }
+  return null;
+}
+
+let chartOptions = {
+  maintainAspectRatio: false,
+  legend: {
+    display: false
+  },
+  tooltips: {
+    backgroundColor: "#f5f5f5",
+    titleFontColor: "#333",
+    bodyFontColor: "#666",
+    bodySpacing: 4,
+    xPadding: 12,
+    mode: "nearest",
+    intersect: 0,
+    position: "nearest"
+  },
+  responsive: true,
+  scales: {
+    yAxes: [
+      {
+        barPercentage: 1.6,
+        gridLines: {
+          drawBorder: false,
+          color: "rgba(29,140,248,0.0)",
+          zeroLineColor: "transparent"
+        },
+        ticks: {
+          suggestedMin: 60,
+          suggestedMax: 125,
+          padding: 20,
+          fontColor: "#9a9a9a"
+        }
+      }
+    ],
+    xAxes: [
+      {
+        barPercentage: 1.6,
+        gridLines: {
+          drawBorder: false,
+          color: "rgba(29,140,248,0.1)",
+          zeroLineColor: "transparent"
+        },
+        ticks: {
+          padding: 20,
+          fontColor: "#9a9a9a"
+        }
+      }
+    ]
+  }
+};
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bigChartData: "data1",
-      todoList: [
-        {
-          title:"Walk dog",
-          id:1
-        },
-        {
-          title:"Eat more vegetables",
-          id:2
-        },
-        {
-          title:"Go to the gym three times a week",
-          id:3
-        },
-        {
-          title:"Stop drinking energy drinks",
-          id:4
-        }
-      ],
-      rankings: [
-        {
-          rank:1,
-          name:'Jason Tran',
-          city:'Monrovia, CA',
-          earnings:'$1,250'
-        },
-        {
-          rank:2,
-          name:'Stanley Lee',
-          city:'San Gabriel, CA',
-          earnings:'$985'
-        },
-        {
-          rank:3,
-          name:'Jeffrey Ha',
-          city:'Rosemead, CA',
-          earnings:'$800'
-        },
-        {
-          rank:4,
-          name:'Demetrius Ly',
-          city:'Temple City, CA',
-          earnings:'$600'
-        },
-        {
-          rank:5,
-          name:'Andrea Chu',
-          city:'Arcadia, CA',
-          earnings:'$560'
-        }
-      ]
+      bigChartData: "data1"
     };
   }
-//   componentDidMount() {
-//     axios.get(".port and route info")
-//       .then((res) => {
-//         console.log(res);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }
+
+  setBgChartData = name => {
+    this.setState({
+      bigChartData: name
+    });
+  };
+
+  loadData = canvas => {
+    let mainUser = getCookie("session");
+    if (mainUser != null) {
+      let result = $.ajax({
+        url: "http://localhost:7000/api/user/" + mainUser,
+        type: "POST",
+        data: {
+            action: "getInfo"
+        },
+        async: false,
+        dataType: "json"});
+      alert("s: " + result.success);
+      if (result.success === true) {
+          let data = result.data;
+          if (data != null && data.supporter != null) {
+            let x1 = [];
+            let y1 = [];
+
+            let x2 = [];
+            let y2 = [];
+
+            let count = 0;
+            data.weightData.forEach(function(item) {
+              x1.push(item.date);
+              y1.push(item.weight);
+              count++;
+            });
+
+            if (count > 12) {
+              let lastIndex = x1.length - 1;
+              let startIndex = lastIndex - 12;
+              if (startIndex < 0) { startIndex = 0; }
+
+              x1.slice(startIndex, lastIndex);
+              y1.slice(startIndex, lastIndex);
+            }
+
+            count = 0;
+            data.supporter.weightData.forEeach(function(item) {
+              x2.push(item.date);
+              y2.push(item.weight);
+              count++;
+            });
+
+            if (count > 12) {
+              let lastIndex = x2.length - 1;
+              let startIndex = lastIndex - 12;
+              if (startIndex < 0) { startIndex = 0; }
+
+              x2.slice(startIndex, lastIndex);
+              y2.slice(startIndex, lastIndex);
+            }
+
+            let ctx = canvas.getContext("2d");
+
+            let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+
+            gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
+            gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
+            gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
+
+            return {
+              labels: x1,
+              datasets: [
+                {
+                  label: "Data",
+                  fill: true,
+                  backgroundColor: gradientStroke,
+                  borderColor: "#1f8ef1",
+                  borderWidth: 2,
+                  borderDash: [],
+                  borderDashOffset: 0.0,
+                  pointBackgroundColor: "#1f8ef1",
+                  pointBorderColor: "rgba(255,255,255,0)",
+                  pointHoverBackgroundColor: "#1f8ef1",
+                  pointBorderWidth: 20,
+                  pointHoverRadius: 4,
+                  pointHoverBorderWidth: 15,
+                  pointRadius: 4,
+                  data: y1
+                }
+              ]
+            };
+          }
+      } else {
+          //alert(result.message);
+      }
+    }
+  };
+
   render() {
     return (
       <>
@@ -119,13 +217,87 @@ class Dashboard extends React.Component {
                       <h5 className="card-category">Your weight over time</h5>
                       <CardTitle tag="h2">Performance</CardTitle>
                     </Col>
+                    <Col sm="6">
+                      {/* <ButtonGroup
+                        className="btn-group-toggle float-right"
+                        data-toggle="buttons"
+                      >
+                        <Button
+                          tag="label"
+                          className={classNames("btn-simple", {
+                            active: this.state.bigChartData === "data1"
+                          })}
+                          color="info"
+                          id="0"
+                          size="sm"
+                          onClick={() => this.setBgChartData("data1")}
+                        >
+                          <input
+                            defaultChecked
+                            className="d-none"
+                            name="options"
+                            type="radio"
+                          />
+                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                            Accounts
+                          </span>
+                          <span className="d-block d-sm-none">
+                            <i className="tim-icons icon-single-02" />
+                          </span>
+                        </Button>
+                        <Button
+                          color="info"
+                          id="1"
+                          size="sm"
+                          tag="label"
+                          className={classNames("btn-simple", {
+                            active: this.state.bigChartData === "data2"
+                          })}
+                          onClick={() => this.setBgChartData("data2")}
+                        >
+                          <input
+                            className="d-none"
+                            name="options"
+                            type="radio"
+                          />
+                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                            Purchases
+                          </span>
+                          <span className="d-block d-sm-none">
+                            <i className="tim-icons icon-gift-2" />
+                          </span>
+                        </Button>
+                        <Button
+                          color="info"
+                          id="2"
+                          size="sm"
+                          tag="label"
+                          className={classNames("btn-simple", {
+                            active: this.state.bigChartData === "data3"
+                          })}
+                          onClick={() => this.setBgChartData("data3")}
+                        >
+                          <input
+                            className="d-none"
+                            name="options"
+                            type="radio"
+                          />
+                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                            Sessions
+                          </span>
+                          <span className="d-block d-sm-none">
+                            <i className="tim-icons icon-tap-02" />
+                          </span>
+                        </Button>
+                      </ButtonGroup> */}
+                    </Col>
                   </Row>
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
                     <Line
-                      data={chartExample1["data1"]()}
-                      options={chartExample1.options}
+                      data={this.loadData}
+                      options={chartOptions}
                     />
                   </div>
                 </CardBody>
@@ -148,30 +320,321 @@ class Dashboard extends React.Component {
                       <h5 className="card-category">Your partner's weight over time</h5>
                       <CardTitle tag="h2">Performance</CardTitle>
                     </Col>
+                    <Col sm="6">
+                      {/* <ButtonGroup
+                        className="btn-group-toggle float-right"
+                        data-toggle="buttons"
+                      >
+                        <Button
+                          tag="label"
+                          className={classNames("btn-simple", {
+                            active: this.state.bigChartData === "data1"
+                          })}
+                          color="info"
+                          id="0"
+                          size="sm"
+                          onClick={() => this.setBgChartData("data1")}
+                        >
+                          <input
+                            defaultChecked
+                            className="d-none"
+                            name="options"
+                            type="radio"
+                          />
+                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                            Accounts
+                          </span>
+                          <span className="d-block d-sm-none">
+                            <i className="tim-icons icon-single-02" />
+                          </span>
+                        </Button>
+                        <Button
+                          color="info"
+                          id="1"
+                          size="sm"
+                          tag="label"
+                          className={classNames("btn-simple", {
+                            active: this.state.bigChartData === "data2"
+                          })}
+                          onClick={() => this.setBgChartData("data2")}
+                        >
+                          <input
+                            className="d-none"
+                            name="options"
+                            type="radio"
+                          />
+                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                            Purchases
+                          </span>
+                          <span className="d-block d-sm-none">
+                            <i className="tim-icons icon-gift-2" />
+                          </span>
+                        </Button>
+                        <Button
+                          color="info"
+                          id="2"
+                          size="sm"
+                          tag="label"
+                          className={classNames("btn-simple", {
+                            active: this.state.bigChartData === "data3"
+                          })}
+                          onClick={() => this.setBgChartData("data3")}
+                        >
+                          <input
+                            className="d-none"
+                            name="options"
+                            type="radio"
+                          />
+                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                            Sessions
+                          </span>
+                          <span className="d-block d-sm-none">
+                            <i className="tim-icons icon-tap-02" />
+                          </span>
+                        </Button>
+                      </ButtonGroup> */}
+                    </Col>
                   </Row>
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
                     <Line
-                      data={chartExample1[this.state.bigChartData]}
-                      options={chartExample1.options}
+                      data={this.loadData}
+                      options={chartOptions}
                     />
                   </div>
                 </CardBody>
               </Card>
             </Col>
           </Row>
-
+          
           <Row>
             <Col lg="6" md="12">
               <Card className="card-tasks">
                 <CardHeader>
-                  <h6 className="title d-inline">To-Do List</h6>
+                  <h6 className="title d-inline">Tasks(5)</h6>
                   <p className="card-category d-inline"> today</p>
                 </CardHeader>
                 <CardBody>
                   <div className="table-full-width table-responsive">
-                    <TodoItem todoList={ this.state.todoList }/>
+                    <Table>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <FormGroup check>
+                              <Label check>
+                                <Input defaultValue="" type="checkbox" />
+                                <span className="form-check-sign">
+                                  <span className="check" />
+                                </span>
+                              </Label>
+                            </FormGroup>
+                          </td>
+                          <td>
+                            <p className="title">Lose weight</p>
+                            <p className="text-muted">
+                            Lose weight
+                            </p>
+                          </td>
+                          <td className="td-actions text-right">
+                            <Button
+                              color="link"
+                              id="tooltip636901683"
+                              title=""
+                              type="button"
+                            >
+                              <i className="tim-icons icon-pencil" />
+                            </Button>
+                            <UncontrolledTooltip
+                              delay={0}
+                              target="tooltip636901683"
+                              placement="right"
+                            >
+                              Edit Task
+                            </UncontrolledTooltip>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <FormGroup check>
+                              <Label check>
+                                <Input
+                                  defaultChecked
+                                  defaultValue=""
+                                  type="checkbox"
+                                />
+                                <span className="form-check-sign">
+                                  <span className="check" />
+                                </span>
+                              </Label>
+                            </FormGroup>
+                          </td>
+                          <td>
+                            <p className="title">Lose weight</p>
+                            <p className="text-muted">
+                            Lose weight
+                            </p>
+                          </td>
+                          <td className="td-actions text-right">
+                            <Button
+                              color="link"
+                              id="tooltip457194718"
+                              title=""
+                              type="button"
+                            >
+                              <i className="tim-icons icon-pencil" />
+                            </Button>
+                            <UncontrolledTooltip
+                              delay={0}
+                              target="tooltip457194718"
+                              placement="right"
+                            >
+                              Edit Task
+                            </UncontrolledTooltip>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <FormGroup check>
+                              <Label check>
+                                <Input defaultValue="" type="checkbox" />
+                                <span className="form-check-sign">
+                                  <span className="check" />
+                                </span>
+                              </Label>
+                            </FormGroup>
+                          </td>
+                          <td>
+                            <p className="title">Lose weight</p>
+                            <p className="text-muted">
+                            Lose weight
+                            </p>
+                          </td>
+                          <td className="td-actions text-right">
+                            <Button
+                              color="link"
+                              id="tooltip362404923"
+                              title=""
+                              type="button"
+                            >
+                              <i className="tim-icons icon-pencil" />
+                            </Button>
+                            <UncontrolledTooltip
+                              delay={0}
+                              target="tooltip362404923"
+                              placement="right"
+                            >
+                              Edit Task
+                            </UncontrolledTooltip>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <FormGroup check>
+                              <Label check>
+                                <Input defaultValue="" type="checkbox" />
+                                <span className="form-check-sign">
+                                  <span className="check" />
+                                </span>
+                              </Label>
+                            </FormGroup>
+                          </td>
+                          <td>
+                            <p className="title">Lose weight</p>
+                            <p className="text-muted">
+                            Lose weight
+                            </p>
+                          </td>
+                          <td className="td-actions text-right">
+                            <Button
+                              color="link"
+                              id="tooltip818217463"
+                              title=""
+                              type="button"
+                            >
+                              <i className="tim-icons icon-pencil" />
+                            </Button>
+                            <UncontrolledTooltip
+                              delay={0}
+                              target="tooltip818217463"
+                              placement="right"
+                            >
+                              Edit Task
+                            </UncontrolledTooltip>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <FormGroup check>
+                              <Label check>
+                                <Input defaultValue="" type="checkbox" />
+                                <span className="form-check-sign">
+                                  <span className="check" />
+                                </span>
+                              </Label>
+                            </FormGroup>
+                          </td>
+                          <td>
+                            <p className="title">Lose weight</p>
+                            <p className="text-muted">
+                            Lose weight
+                            </p>
+                          </td>
+                          <td className="td-actions text-right">
+                            <Button
+                              color="link"
+                              id="tooltip831835125"
+                              title=""
+                              type="button"
+                            >
+                              <i className="tim-icons icon-pencil" />
+                            </Button>
+                            <UncontrolledTooltip
+                              delay={0}
+                              target="tooltip831835125"
+                              placement="right"
+                            >
+                              Edit Task
+                            </UncontrolledTooltip>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <FormGroup check>
+                              <Label check>
+                                <Input defaultValue="" type="checkbox" />
+                                <span className="form-check-sign">
+                                  <span className="check" />
+                                </span>
+                              </Label>
+                            </FormGroup>
+                          </td>
+                          <td>
+                            <p className="title">Lose weight</p>
+                            <p className="text-muted">
+                              Lose weight
+                            </p>
+                          </td>
+                          <td className="td-actions text-right">
+                            <Button
+                              color="link"
+                              id="tooltip217595172"
+                              title=""
+                              type="button"
+                            >
+                              <i className="tim-icons icon-pencil" />
+                            </Button>
+                            <UncontrolledTooltip
+                              delay={0}
+                              target="tooltip217595172"
+                              placement="right"
+                            >
+                              Edit Task
+                            </UncontrolledTooltip>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
                   </div>
                 </CardBody>
               </Card>
@@ -179,10 +642,63 @@ class Dashboard extends React.Component {
             <Col lg="6" md="12">
               <Card>
                 <CardHeader>
-                  <CardTitle tag="h4">Leaderboard</CardTitle>
+                  <CardTitle tag="h4">Simple Table</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <RankItem rankings={ this.state.rankings }/>
+                  <Table className="tablesorter" responsive>
+                    <thead className="text-primary">
+                      <tr>
+                        <th>Name</th>
+                        <th>Country</th>
+                        <th>City</th>
+                        <th className="text-center">Salary</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Dakota Rice</td>
+                        <td>Niger</td>
+                        <td>Oud-Turnhout</td>
+                        <td className="text-center">$36,738</td>
+                      </tr>
+                      <tr>
+                        <td>Minerva Hooper</td>
+                        <td>Curaçao</td>
+                        <td>Sinaai-Waas</td>
+                        <td className="text-center">$23,789</td>
+                      </tr>
+                      <tr>
+                        <td>Sage Rodriguez</td>
+                        <td>Netherlands</td>
+                        <td>Baileux</td>
+                        <td className="text-center">$56,142</td>
+                      </tr>
+                      <tr>
+                        <td>Philip Chaney</td>
+                        <td>Korea, South</td>
+                        <td>Overland Park</td>
+                        <td className="text-center">$38,735</td>
+                      </tr>
+                      <tr>
+                        <td>Doris Greene</td>
+                        <td>Malawi</td>
+                        <td>Feldkirchen in Kärnten</td>
+                        <td className="text-center">$63,542</td>
+                      </tr>
+                      <tr>
+                        <td>Mason Porter</td>
+                        <td>Chile</td>
+                        <td>Gloucester</td>
+                        <td className="text-center">$78,615</td>
+                      </tr>
+                      <tr>
+                        <td>Jon Porter</td>
+                        <td>Portugal</td>
+                        <td>Gloucester</td>
+                        <td className="text-center">$98,615</td>
+                      </tr>
+                    </tbody>
+                  </Table>
                 </CardBody>
               </Card>
             </Col>
