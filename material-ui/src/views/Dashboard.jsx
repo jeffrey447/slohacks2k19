@@ -3,6 +3,8 @@ import React from "react";
 import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
+import InputWeight from './Input.jsx';
+import '../assets/css/dashboard.css';
 
 // reactstrap components
 import {
@@ -20,6 +22,7 @@ import {
   FormGroup,
   Input,
   Table,
+  Container,
   Row,
   Col,
   UncontrolledTooltip
@@ -144,6 +147,13 @@ class Dashboard extends React.Component {
                   </div>
                 </CardBody>
               </Card>
+              <Container className="inputWeight">
+                <Row>
+                  <Col xs="9">
+                    <InputWeight />
+                  </Col>
+                </Row>
+              </Container>
             </Col>
           </Row>
           <Row>
