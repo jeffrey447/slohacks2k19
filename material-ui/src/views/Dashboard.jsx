@@ -242,7 +242,7 @@ class Dashboard extends React.Component {
               </Card>
             </Col>
           </Row>
-          
+
           <Row>
             <Col lg="6" md="12">
               <Card className="card-tasks">
@@ -477,60 +477,60 @@ class Dashboard extends React.Component {
             <Col lg="6" md="12">
               <Card>
                 <CardHeader>
-                  <CardTitle tag="h4">Simple Table</CardTitle>
+                  <CardTitle tag="h4">Rankings</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <Table className="tablesorter" responsive>
                     <thead className="text-primary">
                       <tr>
+                        <th>Place</th>
                         <th>Name</th>
-                        <th>Country</th>
                         <th>City</th>
-                        <th className="text-center">Salary</th>
+                        <th className="text-center">Meowcoin</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Dakota Rice</td>
-                        <td>Niger</td>
-                        <td>Oud-Turnhout</td>
-                        <td className="text-center">$36,738</td>
+                        <td>1.</td>
+                        <td>Jason Tran</td>
+                        <td>San Luis Obispo</td>
+                        <td className="text-center">$1203</td>
                       </tr>
                       <tr>
-                        <td>Minerva Hooper</td>
-                        <td>Curaçao</td>
-                        <td>Sinaai-Waas</td>
-                        <td className="text-center">$23,789</td>
+                        <td>2.</td>
+                        <td>Stanley Lee</td>
+                        <td>San Diego</td>
+                        <td className="text-center">$700</td>
                       </tr>
                       <tr>
-                        <td>Sage Rodriguez</td>
-                        <td>Netherlands</td>
-                        <td>Baileux</td>
-                        <td className="text-center">$56,142</td>
+                        <td>3.</td>
+                        <td>Jeffrey Ha</td>
+                        <td>La Jolla</td>
+                        <td className="text-center">$699</td>
                       </tr>
                       <tr>
-                        <td>Philip Chaney</td>
-                        <td>Korea, South</td>
+                        <td>5.</td>
+                        <td>Alex Nicholas</td>
                         <td>Overland Park</td>
-                        <td className="text-center">$38,735</td>
+                        <td className="text-center">$512</td>
                       </tr>
                       <tr>
-                        <td>Doris Greene</td>
-                        <td>Malawi</td>
+                        <td>6.</td>
+                        <td>Joey Ly</td>
                         <td>Feldkirchen in Kärnten</td>
-                        <td className="text-center">$63,542</td>
+                        <td className="text-center">$410</td>
                       </tr>
                       <tr>
-                        <td>Mason Porter</td>
-                        <td>Chile</td>
+                        <td>7.</td>
+                        <td>Amy Kim</td>
                         <td>Gloucester</td>
-                        <td className="text-center">$78,615</td>
+                        <td className="text-center">$405</td>
                       </tr>
                       <tr>
-                        <td>Jon Porter</td>
-                        <td>Portugal</td>
+                        <td>8.</td>
+                        <td>NguyenN Nguyen</td>
                         <td>Gloucester</td>
-                        <td className="text-center">$98,615</td>
+                        <td className="text-center">$200</td>
                       </tr>
                     </tbody>
                   </Table>
