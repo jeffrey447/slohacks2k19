@@ -19,7 +19,7 @@
 		top: 0;
 		width: _size(sidebar-width);
 		z-index: _misc(z-index-base);
-
+		opacity: .2;
 		> .inner {
 			@include vendor('display', 'flex');
 			@include vendor('flex-direction', 'column');

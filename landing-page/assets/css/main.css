@@ -2174,7 +2174,8 @@ table {
   text-align: right;
   top: 0;
   width: 18em;
-  z-index: 10000; }
+  z-index: 10000;
+  opacity: .2; }
   #sidebar > .inner {
     display: -moz-flex;
     display: -webkit-flex;
