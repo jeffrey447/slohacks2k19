@@ -1,0 +1,8 @@
+Jason Tran:
+Full-stack with React JS. Created user page with a notification system, dynamic graphs, and a task list.
+
+
+Jeffrey Ha:
+Worked with MongoDB to create the database for storing user information.
+
+Stanley Lee:
